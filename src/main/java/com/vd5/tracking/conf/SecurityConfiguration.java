@@ -5,6 +5,7 @@ import com.vd5.tracking.auth.UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,9 +51,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/api/**").permitAll()
-                    .anyRequest().authenticated();
+                .antMatchers("/**").permitAll()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/upload/**",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.woff",
+                        "/**/*.woff2",
+                        "/**/*.tff"
+                ).permitAll()
+                .antMatchers("/api-docs/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/swagger/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/api/**").permitAll()
+                .anyRequest().authenticated();
 
         //-- custom filter
         httpSecurity
