@@ -33,7 +33,6 @@ public class AuthController {
     public ResponseEntity authenticate (@RequestBody AuthModel authModel) {
 
         log.info(authModel.toString());
-
         Response response = authService.authenticate(authModel.getUserName(), authModel.getPassword());
         return new ResponseEntity(response, HttpStatus.OK);
     }
