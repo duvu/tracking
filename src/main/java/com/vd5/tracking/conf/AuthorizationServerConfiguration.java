@@ -41,15 +41,22 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private UserDetailsService userDetailsService;
 
     @Override
-    public void configure(ClientDetailsServiceConfigurer serviceConfigurer) throws Exception {
-        serviceConfigurer
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients
                 .inMemory()
                 .withClient("webapp")
                 .secret("123456")
                 .authorizedGrantTypes("implicit", "password", "authorization_code", "refresh_toke")
-                .scopes("read", "write")
+                .scopes("read", "trust")
                 .accessTokenValiditySeconds(3600*8)
                 .refreshTokenValiditySeconds(3600*8);
+
+//            clients.inMemory()
+//                .withClient("test")
+//                .authorizedGrantTypes("authorization_code")
+//                .authorities("ROLE_CLIENT")
+//                .scopes("read", "trust")
+//                .resourceIds("oauth2-resource");
     }
 
     @Override

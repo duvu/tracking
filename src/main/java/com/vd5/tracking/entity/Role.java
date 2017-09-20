@@ -14,46 +14,38 @@ import java.util.Set;
  */
 @Data
 @Entity
-@Table(name = _TableName.TABLE_ROLE)
+@Table(name = "Role")
 public class Role implements GrantedAuthority {
-
-    public static final String ID               = "id";
-    public static final String ROLE_ID          = "roleId";
-    public static final String ACCOUNT_ID       = "accountId";
-    public static final String NAME             = "name";
-    public static final String DESCRIPTION      = "description";
-    public static final String CREATED_AT       = "createdAt";
-    public static final String UPDATED_AT       = "updatedAt";
 
     private static final long serialVersionUID = 3330897676342809663L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = ACCOUNT_ID)
+    @Column(name = "accountId")
     private Long accountId;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = ACCOUNT_ID, referencedColumnName = ID, insertable = false, updatable = false)
+    @JoinColumn(name = "accountId", referencedColumnName = "id", insertable = false, updatable = false)
     private Account account;
 
 
-    @Column(name = NAME)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = DESCRIPTION)
+    @Column(name = "description")
     private String description;
 
-    @OneToMany (mappedBy = ROLE_ID, cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "roleId", cascade = CascadeType.ALL)
     private List<Permission> permissions;
 
-    @Column(name = CREATED_AT)
+    @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = UPDATED_AT)
+    @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 

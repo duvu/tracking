@@ -12,36 +12,30 @@ import java.io.Serializable;
  */
 @Data
 @Entity
-@Table(name = _TableName.PERMISSION)
+@Table(name = "Permission")
 public class Permission implements GrantedAuthority {
-
-    public static final String ID               = "id";
-    public static final String ROLE_ID          = "roleId";
-    private static final String CLASS_NAME      = "className";
-    private static final String FIELD_NAME      = "fieldName";
-    private static final String ACCESS_LEVEL    = "accessLevel";
 
     private static final long serialVersionUID = 7687698993542918351L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = ROLE_ID, nullable = false)
+    @Column(name = "roleId", nullable = false)
     private Long roleId;
 
-    @Column(name = CLASS_NAME)
+    @Column(name = "className")
     private String className;
 
-    @Column(name = FIELD_NAME)
+    @Column(name = "fieldName")
     private String fieldName;
 
-    @Column(name = ACCESS_LEVEL)
+    @Column(name = "accessLevel")
     private int accessLevel; //0,1,2,3 NONE, READ, UPDATE, ALL
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = ROLE_ID, referencedColumnName = ID, insertable = false, updatable = false)
+    @JoinColumn(name = "roleId", referencedColumnName = "id", insertable = false, updatable = false)
     private Role role;
 
     @Override

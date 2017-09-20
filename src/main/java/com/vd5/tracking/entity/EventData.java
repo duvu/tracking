@@ -13,45 +13,35 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = _TableName.TABLE_EVENT_DATA)
+@Table(name = "EventData")
 public class EventData implements Serializable {
 
     private static final long serialVersionUID = -4305914776247077278L;
 
-    public static final String ID                   = "id";
-    public static final String ACCOUNT_ID           = "accountId";
-    public static final String DEVICE_ID            = "deviceId";
-    public static final String TIMESTAMP            = "timestamp";
-    public static final String STATUS_CODE          = "statusCode";
-
-
-    public static final String CREATED_AT       = "createdAt";
-    public static final String UPDATED_AT       = "updatedAt";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = ACCOUNT_ID, nullable = false, length = 32)
+    @Column(name = "accountId", nullable = false, length = 32)
     private String accountId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = ACCOUNT_ID, referencedColumnName = ACCOUNT_ID, insertable = false, updatable = false)
+    @JoinColumn(name = "accountId", referencedColumnName = "accountId", insertable = false, updatable = false)
     private Account account;
 
-    @Column(name = DEVICE_ID, nullable = false, length = 32)
+    @Column(name = "deviceId", nullable = false, length = 32)
     private String deviceId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = DEVICE_ID, referencedColumnName = DEVICE_ID, insertable = false, updatable = false)
+    @JoinColumn(name = "deviceId", referencedColumnName = "deviceId", insertable = false, updatable = false)
     private Device device;
 
-    @Column(name = CREATED_AT)
+    @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = UPDATED_AT)
+    @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 

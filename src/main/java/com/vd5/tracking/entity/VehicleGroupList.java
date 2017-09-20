@@ -10,11 +10,10 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = _TableName.TABLE_VEHICLE_GROUP_LIST)
+@Table(name = "VehicleGroupList")
 public class VehicleGroupList {
-    private static final String ID              = "id";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 }

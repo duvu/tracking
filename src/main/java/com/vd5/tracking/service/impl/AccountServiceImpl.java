@@ -5,11 +5,13 @@ import com.vd5.tracking.model.Response;
 import com.vd5.tracking.model.ResultCode;
 import com.vd5.tracking.repository.AccountRepository;
 import com.vd5.tracking.service.AccountService;
+import com.vd5.tracking.web.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author beou on 8/1/17 04:55
@@ -80,23 +82,14 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Response add(Account account) {
-        log.info("...add account");
-        log.info("...Password" + account.getPassword());
+    @Transactional
+    public Account add(AccountRequest accountRequest) {
+        Account account = Account.builder()
+                .accountId(accountRequest.getAccountId())
+                .displayName("")
+                .build();
 
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-
-        log.info("...Password1" + account.getPassword());
-        try {
-
-            Account createdAccount = accountRepository.save(account);
-            return new Response(ResultCode.SUCCESS, createdAccount, "created account");
-        } catch (Exception ex) {
-            log.error(ExceptionUtils.getStackTrace(ex));
-            return new Response(ResultCode.ERROR, null, "Internal Error");
-        } finally {
-            log.info("___add account");
-        }
+        return accountRepository.save(account);
     }
 
     @Override

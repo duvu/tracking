@@ -1,4 +1,4 @@
-package com.vd5.tracking.controller;
+package com.vd5.tracking.web.controller;
 
 /**
  * @author beou on 8/1/17 03:32

@@ -12,45 +12,32 @@ import java.util.Date;
  */
 @Entity
 @Data
-@Table(name = _TableName.TABLE_DEVICE)
+@Table(name = "Device")
 public class Device implements Serializable {
 
     private static final long serialVersionUID = -8426530978816745841L;
 
-    public static final String ID               = "id";
-    public static final String ACCOUNT_ID       = "accountId";
-    public static final String DEVICE_ID        = "deviceId"; //the unique-Id
-
-    public static final String STATUS           = "status"; //active/inactive
-
-    public static final String IMEI             = "imei";
-    public static final String PROTOCOL         = "protocol";
-    public static final String BRAND            = "brand";
-    public static final String SERIAL_NUMBER    = "serialNumber";
-
-    public static final String CREATED_AT       = "createdAt";
-    public static final String UPDATED_AT       = "updatedAt";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = ACCOUNT_ID, nullable = false, length = 32)
+    @Column(name = "accountId", nullable = false, length = 32)
     private String accountId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = ACCOUNT_ID, referencedColumnName = ACCOUNT_ID, insertable = false, updatable = false)
+    @JoinColumn(name = "accountId", referencedColumnName = "accountId", insertable = false, updatable = false)
     private Account account;
 
-    @Column(name = DEVICE_ID, nullable = false, length = 32)
+    @Column(name = "deviceId", nullable = false, length = 32)
     private String deviceId;
 
-    @Column(name = CREATED_AT)
+    @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = UPDATED_AT)
+    @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
