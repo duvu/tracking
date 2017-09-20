@@ -80,7 +80,6 @@ public class Account implements Serializable {
     @JoinColumn(name = MANAGER_ID, referencedColumnName = ID, insertable = false, updatable = false)
     private Account manager;
 
-    @JsonIgnore
     @Column(name = PASSWORD)
     private String password;
 

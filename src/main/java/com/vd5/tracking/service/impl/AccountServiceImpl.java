@@ -8,6 +8,7 @@ import com.vd5.tracking.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,10 +20,12 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService{
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -79,7 +82,13 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Response add(Account account) {
         log.info("...add account");
+        log.info("...Password" + account.getPassword());
+
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+
+        log.info("...Password1" + account.getPassword());
         try {
+
             Account createdAccount = accountRepository.save(account);
             return new Response(ResultCode.SUCCESS, createdAccount, "created account");
         } catch (Exception ex) {

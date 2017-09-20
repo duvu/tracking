@@ -6,10 +6,7 @@ import com.vd5.tracking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author beou on 8/1/17 03:10
@@ -31,6 +28,12 @@ public class AccountController {
     public ResponseEntity<Response> addNewAccount(@RequestBody Account account) {
         Response bodyData = accountService.add(account);
 
+        return new ResponseEntity<Response>(bodyData, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response> getAccount(@PathVariable(value = "id") Long id) {
+        Response bodyData = accountService.getById(id);
         return new ResponseEntity<Response>(bodyData, HttpStatus.OK);
     }
 }
