@@ -44,8 +44,7 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Response> getAccount(@PathVariable(value = "id") Long id) {
-        Response bodyData = accountService.getById(id);
-        return new ResponseEntity<Response>(bodyData, HttpStatus.OK);
+    public AccountProjection getAccount(@PathVariable(value = "id") Long id) {
+        return projectionFactory.createProjection(AccountProjection.class, accountService.getById(id));
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface AccountService {
-    public Response getById(Long id);
+    public Account getById(Long id);
     public Response getByAccountId(String accountId);
     public Response getByEmail(String email);
     public Response getByPhone(String phone);

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author beou on 8/1/17 04:55
  * @version 1.0
@@ -31,21 +33,13 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Response getById(Long id) {
-        log.info("...getById");
-        try {
-            if (id == null || id < 0) {
-                return new Response(ResultCode.ERROR, null, "Invalid request");
-            } else {
-                Account account = accountRepository.findOne(id);
-                return new Response(ResultCode.SUCCESS, account, "Success");
-            }
-        } catch (Exception ex) {
-            log.error(ExceptionUtils.getStackTrace(ex));
-            return new Response(ResultCode.SUCCESS, null, "Internal Error");
-        } finally {
-            log.info("___getById");
+    @Transactional
+    public Account getById(Long id) {
+        Account account = accountRepository.findOne(id);
+        if (account == null) {
+            throw new NoSuchElementException("Account not found for id " + id);
         }
+        return account;
     }
 
     @Override
