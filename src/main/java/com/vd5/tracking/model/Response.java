@@ -1,6 +1,9 @@
 package com.vd5.tracking.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -9,19 +12,14 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Response implements Serializable{
+
     private static final long serialVersionUID = 703261300465580561L;
 
     ResultCode result;
     Object data;
     String message;
-
-    public Response() {
-    }
-
-    public Response(ResultCode result, Object data, String message) {
-        this.result = result;
-        this.data = data;
-        this.message = message;
-    }
 }

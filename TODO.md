@@ -1,0 +1,4 @@
+- Flyway
+- Client management (Implement ClientDetailsService)
+- Move DCS here
+- Use ElasticSearch to store event-data

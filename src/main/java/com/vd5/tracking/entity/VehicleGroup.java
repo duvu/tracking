@@ -11,18 +11,13 @@ import java.io.Serializable;
  */
 @Data
 @Entity
-@Table(name = _TableName.TABLE_VEHICLE_GROUP)
+@Table(name = "VehicleGroup")
 public class VehicleGroup implements Serializable {
 
     private static final long serialVersionUID = -6248071468469723968L;
 
-    public static final String ID                   = "id";
-    public static final String ACCOUNT_ID           = "accountId";
-    public static final String NAME                 = "name";
-    public static final String DESCRIPTION          = "description";
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ID, nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 }
