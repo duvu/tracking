@@ -3,8 +3,10 @@ package com.vd5.tracking.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +21,8 @@ import java.util.List;
 @Data
 @Builder
 @Table(name = "Account")
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account implements Serializable {
 
@@ -32,10 +36,7 @@ public class Account implements Serializable {
     @Column(name = "accountId", nullable = false, length = 32)
     private String accountId;
 
-    @Column(name = "managerId", length = 32)
-    private Long managerId;
-
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "managerId", referencedColumnName = "id", insertable = false, updatable = false)
     private Account manager;
 

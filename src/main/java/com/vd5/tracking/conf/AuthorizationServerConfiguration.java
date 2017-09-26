@@ -47,7 +47,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .withClient("webapp")
                 .secret("123456")
                 .authorizedGrantTypes("implicit", "password", "authorization_code", "refresh_toke")
-                .scopes("read", "trust")
+                .scopes("read", "write")
                 .accessTokenValiditySeconds(3600*8)
                 .refreshTokenValiditySeconds(3600*8);
 
