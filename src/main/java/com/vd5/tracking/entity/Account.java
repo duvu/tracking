@@ -26,8 +26,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Account implements Serializable {
 
-    private static final long serialVersionUID = -8962663234205282943L;
-
+    private static final long serialVersionUID = -7003585213284904715L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -89,8 +88,6 @@ public class Account implements Serializable {
     @PrePersist
     private void prePersist() {
         this.createdAt = new Date();
-        this.updatedAt = new Date();
-        this.status = Status.Account.ACTIVATED.getValue();
     }
 
     @PreUpdate

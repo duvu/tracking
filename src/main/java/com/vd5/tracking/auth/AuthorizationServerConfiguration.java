@@ -1,4 +1,4 @@
-package com.vd5.tracking.conf;
+package com.vd5.tracking.auth;
 
 import com.vd5.tracking.auth.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +60,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer securityConfigurer) throws Exception {
-        securityConfigurer.tokenKeyAccess("permitAll()")
+    public void configure(AuthorizationServerSecurityConfigurer configurer) throws Exception {
+        configurer.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
 

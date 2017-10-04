@@ -5,11 +5,11 @@
 
 	<groupId>com.vd5</groupId>
 	<artifactId>tracking</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>tracking</name>
-	<description>Demo project for Spring Boot</description>
+	<description>VD5 Tracking project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -47,10 +47,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-		<!--dependency>
+		<!--<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-		</dependency-->
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>

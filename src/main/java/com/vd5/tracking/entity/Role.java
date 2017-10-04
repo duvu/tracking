@@ -1,5 +1,6 @@
 package com.vd5.tracking.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -13,6 +14,7 @@ import java.util.Set;
  * @version 1.0
  */
 @Data
+@Builder
 @Entity
 @Table(name = "Role")
 public class Role implements GrantedAuthority {
@@ -31,7 +33,6 @@ public class Role implements GrantedAuthority {
     @JoinColumn(name = "accountId", referencedColumnName = "id", insertable = false, updatable = false)
     private Account account;
 
-
     @Column(name = "name")
     private String name;
 
@@ -49,11 +50,9 @@ public class Role implements GrantedAuthority {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-
     @PrePersist
     private void prePersist() {
         this.createdAt = new Date();
-        this.updatedAt = new Date();
     }
 
     @PreUpdate
