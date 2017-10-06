@@ -4,6 +4,7 @@ import com.vd5.tracking.exception.ValidationException;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.web.projection.AccountProjection;
 import com.vd5.tracking.web.request.AccountRequest;
+import com.vd5.tracking.web.specification.AbstractSpecification;
 import com.vd5.tracking.web.specification.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,14 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountSpecification accountSpecification;
 
     private final ProjectionFactory projectionFactory;
 
     @Autowired
-    public AccountController(AccountService accountService, ProjectionFactory projectionFactory) {
+    public AccountController(AccountService accountService, AccountSpecification accountSpecification, ProjectionFactory projectionFactory) {
         this.accountService = accountService;
+        this.accountSpecification = accountSpecification;
         this.projectionFactory = projectionFactory;
     }
 
@@ -43,8 +46,7 @@ public class AccountController {
 
     @GetMapping
     public Page<AccountProjection> getAccountByPage(@RequestParam Map<String, String> params, Pageable pageable) {
-
-        return accountService.searchAndSort(AccountSpecification.searchName("test"), pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
+        return accountService.searchAndSort(accountSpecification.queryOr(params), pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
     }
 
     @PostMapping
