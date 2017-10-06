@@ -1,19 +1,19 @@
 package com.vd5.tracking.web.controller;
 
-import com.vd5.tracking.entity.Account;
 import com.vd5.tracking.exception.ValidationException;
-import com.vd5.tracking.model.Response;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.web.projection.AccountProjection;
 import com.vd5.tracking.web.request.AccountRequest;
+import com.vd5.tracking.web.specification.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.projection.ProjectionFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * @author beou on 8/1/17 03:10
@@ -34,13 +34,24 @@ public class AccountController {
         this.projectionFactory = projectionFactory;
     }
 
+    // 1. search & sort & pagination
+    // 2. get all & pagination
+    // 3. get specific
+    // 4. create (return CREATED)
+    // 5. update
+    // 6. delete
+
+    @GetMapping
+    public Page<AccountProjection> getAccountByPage(@RequestParam Map<String, String> params, Pageable pageable) {
+
+        return accountService.searchAndSort(AccountSpecification.searchName("test"), pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
+    }
+
     @PostMapping
     public AccountProjection addNewAccount(@RequestBody @Valid AccountRequest accountRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new ValidationException("Account", bindingResult.getFieldErrors());
-
-        Account account = accountService.add(accountRequest);
-        return projectionFactory.createProjection(AccountProjection.class, account);
+        return projectionFactory.createProjection(AccountProjection.class, accountService.add(accountRequest));
     }
 
     @GetMapping(value = "/{id}")

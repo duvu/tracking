@@ -4,14 +4,28 @@ import com.vd5.tracking.entity.Account;
 import com.vd5.tracking.entity.Status;
 import com.vd5.tracking.model.Response;
 import com.vd5.tracking.web.request.AccountRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author beou on 8/1/17 03:33
  * @version 1.0
  */
-@Service
+
 public interface AccountService {
+    // 1. search & sort & pagination
+    // 2. get all & pagination
+    // 3. get specific
+    // 4. create (return CREATED)
+    // 5. update
+    // 6. delete
+
+    public Page<Account> searchAndSort(Specification specification, Pageable pageable);
+
     public Account getById(Long id);
     public Response getByAccountId(String accountId);
     public Response getByEmail(String email);
