@@ -4,17 +4,20 @@ import com.vd5.tracking.exception.ValidationException;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.web.projection.AccountProjection;
 import com.vd5.tracking.web.request.AccountRequest;
-import com.vd5.tracking.web.specification.AbstractSpecification;
 import com.vd5.tracking.web.specification.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author beou on 8/1/17 03:10
@@ -45,8 +48,8 @@ public class AccountController {
     // 6. delete
 
     @GetMapping
-    public Page<AccountProjection> getAccountByPage(@RequestParam Map<String, String> params, Pageable pageable) {
-        return accountService.searchAndSort(accountSpecification.queryOr(params), pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
+    public Page<AccountProjection> getAccountByPage(@RequestParam(name = "search", required = false) String search, Pageable pageable) {
+        return accountService.searchAndSort(accountSpecification.search(search), pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
     }
 
     @PostMapping

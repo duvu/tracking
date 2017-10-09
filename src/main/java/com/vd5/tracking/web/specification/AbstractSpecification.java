@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 public abstract class AbstractSpecification<T> {
     public Specification<T> queryAnd(Map<String, String> params) {
         return (root, query, cb) -> {
-            List<Predicate> l = params.entrySet().stream().map(x -> cb.like(root.get(x.getKey()), x.getValue())).collect(Collectors.toList());
-            if (l != null && l.size() > 0) {
-                Predicate p0 = l.get(0);
-                for (int i = 0; i < l.size(); i++) {
-                    p0 = cb.and(p0,l.get(i));
+            List<Predicate> predicateList = params.entrySet().stream().map(x -> cb.like(root.get(x.getKey()), x.getValue())).collect(Collectors.toList());
+            if (predicateList != null && predicateList.size() > 0) {
+                Predicate p0 = predicateList.get(0);
+                for (Predicate aPredicateList : predicateList) {
+                    p0 = cb.and(p0, aPredicateList);
                 }
                 return p0;
             }
@@ -27,17 +27,20 @@ public abstract class AbstractSpecification<T> {
         };
     }
 
+    //- todo: add sort
     public Specification<T> queryOr(Map<String, String> params) {
         return (root, query, cb) -> {
-            List<Predicate> l = params.entrySet().stream().map(x -> cb.like(root.get(x.getKey()), x.getValue())).collect(Collectors.toList());
-            if (l != null && l.size() > 0) {
-                Predicate p0 = l.get(0);
-                for (int i = 0; i < l.size(); i++) {
-                    p0 = cb.or(p0,l.get(i));
+            List<Predicate> predicateList = params.entrySet().stream().map(x -> cb.like(root.get(x.getKey()), x.getValue())).collect(Collectors.toList());
+            if (predicateList != null && predicateList.size() > 0) {
+                Predicate p0 = predicateList.get(0);
+                for (Predicate aL : predicateList) {
+                    p0 = cb.or(p0, aL);
                 }
                 return p0;
             }
             return null;
         };
     }
+
+    public abstract Specification<T> search(String search);
 }
