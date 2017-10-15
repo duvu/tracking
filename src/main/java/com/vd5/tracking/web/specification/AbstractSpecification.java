@@ -1,9 +1,9 @@
 package com.vd5.tracking.web.specification;
 
-import com.vd5.tracking.entity.Account;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Predicate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public abstract class AbstractSpecification<T> {
         };
     }
 
-    //- todo: add sort
+    //- todo: create sort
     public Specification<T> queryOr(Map<String, String> params) {
         return (root, query, cb) -> {
             List<Predicate> predicateList = params.entrySet().stream().map(x -> cb.like(root.get(x.getKey()), x.getValue())).collect(Collectors.toList());
@@ -41,6 +41,9 @@ public abstract class AbstractSpecification<T> {
             return null;
         };
     }
-
     public abstract Specification<T> search(String search);
+
+    protected String getCurrentAccountId() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

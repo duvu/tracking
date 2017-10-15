@@ -17,7 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "Role")
-public class Role implements GrantedAuthority {
+public class Role {
 
     private static final long serialVersionUID = 3330897676342809663L;
 
@@ -39,14 +39,11 @@ public class Role implements GrantedAuthority {
     @Column(name = "description")
     private String description;
 
-    @OneToMany (mappedBy = "roleId", cascade = CascadeType.ALL)
-    private List<Permission> permissions;
-
-    @Column(name = "createdAt")
+    @Column(name = "createdOn")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(name = "updatedAt")
+    @Column(name = "updatedOn")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
@@ -58,10 +55,5 @@ public class Role implements GrantedAuthority {
     @PreUpdate
     private void preUpdate() {
         this.updatedAt = new Date();
-    }
-
-    @Override
-    public String getAuthority() {
-        return name;
     }
 }

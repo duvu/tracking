@@ -1,12 +1,12 @@
 package com.vd5.tracking.auth;
 
-import com.vd5.tracking.auth.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -81,11 +81,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            UserDetailsImpl userDetails = (UserDetailsImpl)userDetailsService.loadUserByUsername(authentication.getName());
+            MyUserDetailsImpl userDetails = (MyUserDetailsImpl)userDetailsService.loadUserByUsername(authentication.getName());
 
             Map<String, Object> additionalInfor = new HashMap<>();
-            additionalInfor.put("user_name", userDetails.getUsername());
-//            additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(x -> x.getAuthority()).collect(Collectors.toList()));
+            additionalInfor.put("userName", userDetails.getUsername());
+            additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInfor);
             return accessToken;
         };

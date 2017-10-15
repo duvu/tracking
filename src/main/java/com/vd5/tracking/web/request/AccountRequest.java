@@ -24,5 +24,7 @@ public class AccountRequest implements Serializable {
     @Size(max = 32)
     private String accountId;
 
+    private String password;
+
     private String displayName;
 }

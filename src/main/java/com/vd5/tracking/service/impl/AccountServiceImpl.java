@@ -1,21 +1,22 @@
 package com.vd5.tracking.service.impl;
 
 import com.vd5.tracking.entity.Account;
-import com.vd5.tracking.model.Response;
-import com.vd5.tracking.model.ResultCode;
 import com.vd5.tracking.repository.AccountRepository;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.web.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -36,12 +37,17 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    @PostFilter("hasPermission(filterObject, 'read') or hasPermission(filterObject, 'admin')")
     public Page<Account> searchAndSort(Specification specification, Pageable pageable) {
         return accountRepository.findAll(specification, pageable);
     }
 
     @Override
-    @Transactional
+    public List<Account> searchAndSort(Specification specification) {
+        return accountRepository.findAll(specification);
+    }
+
+    @Override
     public Account getById(Long id) {
         Account account = accountRepository.findOne(id);
         if (account == null) {
@@ -51,66 +57,45 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Response getByAccountId(String accountId) {
-        return null;
-    }
-
-    @Override
-    public Response getByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public Response getByPhone(String phone) {
-        return null;
-    }
-
-    /**
-     * @param id the id of account
-     * @return all account under the account, includes the account itself
-     */
-    @Override
-    public Response getAllById(Long id) {
-        return null;
-    }
-
-    /**
-     * @param accountId the accountId of account
-     * @return all account under the account, includes the account itself
-     */
-    @Override
-    public Response getAllByAccountId(String accountId) {
-        return null;
-    }
-
-    @Override
     @Transactional
-    public Account add(AccountRequest accountRequest) {
+    public Account create(AccountRequest request) {
         Account account = Account.builder()
-                .accountId(accountRequest.getAccountId())
-                .displayName("")
+                .accountId(request.getAccountId())
+                .displayName(request.getDisplayName())
                 .build();
+
+        if (!StringUtils.isEmpty(request.getPassword())) {
+            account.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
 
         return accountRepository.save(account);
     }
 
     @Override
-    public Response addChild(Long parentId, Account childAccount) {
-        return null;
+    @Transactional
+    public Account update(Long id, AccountRequest request) {
+        Account account = accountRepository.findOne(id);
+        if (account == null) {
+            throw new NoSuchElementException("Account not found for Id#" + id);
+        }
+
+        account.setDisplayName(request.getDisplayName());
+        return accountRepository.save(account);
     }
 
     @Override
-    public Response removeChild(Long parenId, Long childId) {
-        return null;
+    public void delete(Long id) {
+        accountRepository.delete(id);
+    }
+
+
+    @Override
+    public void addChild(Long parentId, Account childAccount) {
+
     }
 
     @Override
-    public Response update(Long id, Account account) {
-        return null;
-    }
+    public void removeChild(Long parenId, Long childId) {
 
-    @Override
-    public Response delete(Long id) {
-        return null;
     }
 }

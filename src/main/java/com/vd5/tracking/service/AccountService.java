@@ -1,13 +1,10 @@
 package com.vd5.tracking.service;
 
 import com.vd5.tracking.entity.Account;
-import com.vd5.tracking.entity.Status;
-import com.vd5.tracking.model.Response;
 import com.vd5.tracking.web.request.AccountRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -25,27 +22,14 @@ public interface AccountService {
     // 6. delete
 
     public Page<Account> searchAndSort(Specification specification, Pageable pageable);
-
+    public List<Account> searchAndSort(Specification specification);
     public Account getById(Long id);
-    public Response getByAccountId(String accountId);
-    public Response getByEmail(String email);
-    public Response getByPhone(String phone);
 
-    /**
-     * @param id the id of account
-     * @return all account under the account, includes the account itself
-     * */
-    public Response getAllById(Long id);
+    public Account create(AccountRequest request);
+    public Account update(Long id, AccountRequest request);
+    public void delete(Long id);
 
-    /**
-     * @param accountId the accountId of account
-     * @return all account under the account, includes the account itself
-     * */
-    public Response getAllByAccountId(String accountId);
+    public void addChild(Long parentId, Account childAccount);
+    public void removeChild(Long parenId, Long childId);
 
-    public Account add(AccountRequest accountRequest);
-    public Response addChild(Long parentId, Account childAccount);
-    public Response removeChild(Long parenId, Long childId);
-    public Response update(Long id, Account account);
-    public Response delete(Long id);
 }

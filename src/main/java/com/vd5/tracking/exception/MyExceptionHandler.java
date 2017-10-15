@@ -1,6 +1,7 @@
 package com.vd5.tracking.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,6 +43,12 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResource handleBusinessLogicException(BusinessLogicException ex) {
         return new ErrorResource(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResource handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        return new ErrorResource(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
     }
 
     private static FieldErrorResource fieldErrorResourceConverter(FieldError fieldError) {

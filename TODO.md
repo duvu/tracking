@@ -1,4 +1,5 @@
 - Flyway
+- Init system (create a component and do @PostConstruct)
 - Client management (Implement ClientDetailsService)
 - Move DCS here
-- Use ElasticSearch to store event-data
+- Use ElasticSearch to store and index event-data

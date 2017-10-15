@@ -8,20 +8,20 @@ import java.util.Collection;
 
 /**
  * @author beou on 8/21/17 14:53
- * @version 1.0
  */
 
-public class UserDetailsImpl implements UserDetails {
+public class MyUserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1015478378277111822L;
     private Account account;
 
-    public UserDetailsImpl(Account account) {
+    public MyUserDetailsImpl(Account account) {
         this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        //need to return authorities here from account
         return null;
     }
 

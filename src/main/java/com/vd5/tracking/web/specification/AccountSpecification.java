@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
  */
 @Component
 public class AccountSpecification extends AbstractSpecification<Account> {
+
     @Override
     public Specification<Account> search(String search) {
         return new Specification<Account>() {
@@ -26,4 +27,5 @@ public class AccountSpecification extends AbstractSpecification<Account> {
             }
         };
     }
+
 }
