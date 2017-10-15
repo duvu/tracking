@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author beou on 8/1/17 03:09
@@ -36,15 +37,25 @@ public class Account implements Serializable {
     private Long roleId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "organization_id", referencedColumnName = "id")
+    @JoinColumn(name = "OrganizationId", referencedColumnName = "id")
     private Organization organization;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "AccountPrivilege", joinColumns = @JoinColumn(name = "accountId", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "privilegeId", referencedColumnName = "id"))
+    private Set<Privilege> privileges;
 
     @Column(length = 20)
     private String phoneNumber;
+
+    private String photoUrl;
+
     @Column(nullable = false, unique = true, length = 128)
     private String emailAddress;
+
     @Column(length = 128)
     private String addressLine1;
+
     @Column(length = 128)
     private String addressLine2;
 
@@ -52,8 +63,10 @@ public class Account implements Serializable {
 
     private String createdBy;
     private String updatedBy;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
 

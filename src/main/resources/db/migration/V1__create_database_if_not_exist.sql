@@ -1,28 +1,120 @@
-create table account
+create table Account
 (
 	id bigint auto_increment primary key,
-	account_id varchar(32) not null,
-	display_name varchar(255) null,
-	email varchar(255) null,
-	manager_id bigint NOT NULL DEFAULT 0,
-	notes varchar(512) null,
+	accountId varchar(32) not null,
+	addressLine1 varchar(128) null,
+	addressLine2 varchar(128) null,
+	createdBy varchar(255) null,
+	createdOn datetime null,
+	emailAddress varchar(128) not null,
+	firstName varchar(255) null,
+	lastName varchar(255) null,
+	notes varchar(255) null,
 	password varchar(255) null,
-	phone varchar(20) null,
-	role_id bigint null,
-	status int not null DEFAULT 1,
-	address_line1 varchar(128) null,
-	address_line2 varchar(128) null,
-	created_at datetime null,
-	updated_at datetime null,
-
-	constraint UK_account_id	unique (account_id),
-	constraint FK_manager_id_id foreign key (manager_id) references account (id),
-	constraint FK_role_id_id foreign key (role_id) references role (id)
+	phoneNumber varchar(20) null,
+	roleId bigint null,
+	status int null,
+	updatedBy varchar(255) null,
+	updatedOn datetime null,
+	organization_id bigint null,
+	constraint UK_1mj5yjysk58rqsexrj1hfpv3x
+		unique (accountId),
+	constraint UK_gi2p6kiyjyn8dw7nf2y8amvv4
+		unique (emailAddress)
 );
 
-create index FK_index_manager_id on account (manager_id);
-create index FK_index_role_id on account (role_id);
+create index FKqc9uuldfqmt5qhf6f99f3b169
+	on Account (organization_id)
+;
 
 -- default password is '123456'
-INSERT INTO account (account_id, display_name, password, email, phone, role_id, status, manager_id, notes,  address_line1, address_line2, created_at, updated_at) VALUES
-('sysadmin', 'System Admin', '$2a$10$.aqE4x/isX22RERANs01Z.ksLh00ssQM99rci8H3mH/VvTCSlVV.W', 'admin@vd5.com',  null, null, 1, 0,  'notes', NULL , NULL , '2017-09-21 01:37:06', '2017-09-21 01:37:06');
+INSERT INTO Account (accountId, password) VALUES
+('sysadmin', '$2a$10$.aqE4x/isX22RERANs01Z.ksLh00ssQM99rci8H3mH/VvTCSlVV.W');
+
+
+
+create table AccountPrivilege
+(
+	id bigint not null,
+	accountId bigint auto_increment,
+	privilegeId bigint not null,
+	primary key (accountId, privilegeId),
+	constraint FKbxhe27xjhrqmy6ln3urk82nn8
+		foreign key (accountId) references Account (id)
+)
+;
+
+create index FK8w8b04wm1m7jo79glgxkf5pjo
+	on AccountPrivilege (privilegeId)
+;
+
+create table Device
+(
+	id bigint auto_increment
+		primary key,
+	createdBy varchar(32) null,
+	createdOn datetime null,
+	deviceId varchar(32) not null,
+	updatedBy varchar(32) null,
+	updatedOn datetime null,
+	accountId bigint null,
+	constraint UK_ktkbd0xm3q2nddw1xxtdaxjy7
+		unique (deviceId),
+	constraint FK486r3d85wfbyu517mysp9gybj
+		foreign key (accountId) references Account (id)
+)
+;
+
+create index FK486r3d85wfbyu517mysp9gybj
+	on Device (accountId)
+;
+
+create table Organization
+(
+	id bigint auto_increment
+		primary key,
+	addressLine1 varchar(255) null,
+	addressLine2 varchar(255) null,
+	createdBy varchar(255) null,
+	createdOn datetime null,
+	emailAddress varchar(255) not null,
+	name varchar(255) not null,
+	phoneNumber varchar(255) null,
+	updatedBy varchar(255) null,
+	updatedOn datetime null,
+	constraint UK_ggls4nk6mtk4iwjkyuflhi54j
+		unique (emailAddress),
+	constraint UK_griwilufaypfq6nxhupb1jfrv
+		unique (name)
+);
+
+alter table Account
+	add constraint FKqc9uuldfqmt5qhf6f99f3b169
+		foreign key (organization_id) references Organization (id)
+;
+
+
+create table Privilege
+(
+	id bigint auto_increment
+		primary key,
+	createdBy varchar(255) null,
+	createdOn datetime null,
+	description varchar(255) null,
+	name varchar(255) not null,
+	updatedBy varchar(255) null,
+	updatedOn datetime null
+)
+;
+
+alter table AccountPrivilege
+	add constraint FK8w8b04wm1m7jo79glgxkf5pjo
+		foreign key (privilegeId) references Privilege (id)
+;
+
+create table Vehicle
+(
+	id bigint auto_increment
+		primary key
+)
+;

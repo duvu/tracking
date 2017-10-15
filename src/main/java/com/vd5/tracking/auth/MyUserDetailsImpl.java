@@ -1,10 +1,16 @@
 package com.vd5.tracking.auth;
 
 import com.vd5.tracking.entity.Account;
+import com.vd5.tracking.entity.Privilege;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author beou on 8/21/17 14:53
@@ -22,7 +28,8 @@ public class MyUserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //need to return authorities here from account
-        return null;
+        Set<Privilege> privileges = account.getPrivileges();
+        return privileges.stream().map(x -> new SimpleGrantedAuthority(x.getName())).collect(Collectors.toList());
     }
 
     @Override

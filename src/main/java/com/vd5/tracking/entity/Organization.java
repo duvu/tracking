@@ -27,6 +27,7 @@ public class Organization implements Serializable {
     private String name;
     @Column(nullable = false, unique = true)
     private String emailAddress;
+    private String photoUrl;
     private String phoneNumber;
     private String addressLine1;
     private String addressLine2;

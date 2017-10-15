@@ -25,6 +25,4 @@ public class AccountRequest implements Serializable {
     private String accountId;
 
     private String password;
-
-    private String displayName;
 }

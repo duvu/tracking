@@ -23,27 +23,25 @@ public class Device implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "accountId", nullable = false, length = 32)
-    private String accountId;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "accountId", referencedColumnName = "accountId", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "accountId", referencedColumnName = "id")
     private Account account;
 
-    @Column(name = "deviceId", nullable = false, length = 32)
+    @Column(nullable = false, unique = true, length = 32)
     private String deviceId;
 
-    @Column(name = "createdOn")
+    @Column(length = 32)
+    private String createdBy;
+
+    @Column(length = 32)
+    private String updatedBy;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
-
-    @Column(name = "updatedOn")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
-
 
     @PrePersist
     private void prePersist() {

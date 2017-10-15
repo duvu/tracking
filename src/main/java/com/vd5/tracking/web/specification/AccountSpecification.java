@@ -23,7 +23,7 @@ public class AccountSpecification extends AbstractSpecification<Account> {
             @Override
             public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 return cb.or(cb.like(root.get(Account_.accountId), search),
-                        cb.like(root.get(Account_.displayName), search));
+                        cb.like(root.get(Account_.firstName), search));
             }
         };
     }

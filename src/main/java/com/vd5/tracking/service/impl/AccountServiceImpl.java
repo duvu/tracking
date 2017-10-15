@@ -61,7 +61,6 @@ public class AccountServiceImpl implements AccountService{
     public Account create(AccountRequest request) {
         Account account = Account.builder()
                 .accountId(request.getAccountId())
-                .displayName(request.getDisplayName())
                 .build();
 
         if (!StringUtils.isEmpty(request.getPassword())) {
@@ -78,8 +77,6 @@ public class AccountServiceImpl implements AccountService{
         if (account == null) {
             throw new NoSuchElementException("Account not found for Id#" + id);
         }
-
-        account.setDisplayName(request.getDisplayName());
         return accountRepository.save(account);
     }
 
