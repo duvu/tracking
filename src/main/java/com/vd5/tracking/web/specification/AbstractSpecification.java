@@ -2,6 +2,7 @@ package com.vd5.tracking.web.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.List;
@@ -41,9 +42,11 @@ public abstract class AbstractSpecification<T> {
             return null;
         };
     }
-    public abstract Specification<T> search(String search);
 
-    protected String getCurrentAccountId() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public String getSearchTerm(String pattern) {
+        if (StringUtils.isEmpty(pattern)) return "%";
+        return "%" + pattern + "%";
     }
+
+    public abstract Specification<T> search(String search);
 }

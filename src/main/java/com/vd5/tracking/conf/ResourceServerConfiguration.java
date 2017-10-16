@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -28,6 +29,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public SpelAwareProxyProjectionFactory projectionFactory() {
         return new SpelAwareProxyProjectionFactory();
     }
+
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {

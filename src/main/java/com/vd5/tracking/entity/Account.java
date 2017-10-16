@@ -1,6 +1,7 @@
 package com.vd5.tracking.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.vd5.tracking.model.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,15 +33,15 @@ public class Account implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
-    private Integer status;     //-1: deleted, 0: disabled, 1: activated, 2: not-paid, warning
 
-    private Long roleId;
+    @Enumerated
+    private AccountStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "OrganizationId", referencedColumnName = "id")
     private Organization organization;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "AccountPrivilege", joinColumns = @JoinColumn(name = "accountId", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "privilegeId", referencedColumnName = "id"))
     private Set<Privilege> privileges;
@@ -48,6 +49,7 @@ public class Account implements Serializable {
     @Column(length = 20)
     private String phoneNumber;
 
+    @Column(length = 255)
     private String photoUrl;
 
     @Column(nullable = false, unique = true, length = 128)
@@ -59,9 +61,13 @@ public class Account implements Serializable {
     @Column(length = 128)
     private String addressLine2;
 
+    @Column(length = 512)
     private String notes;
 
+    @Column(length = 32)
     private String createdBy;
+
+    @Column(length = 32)
     private String updatedBy;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -2,6 +2,7 @@ package com.vd5.tracking.auth;
 
 import com.vd5.tracking.entity.Account;
 import com.vd5.tracking.entity.Privilege;
+import com.vd5.tracking.model.AccountStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,6 +61,6 @@ public class MyUserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return account.getStatus() > 0;
+        return account.getStatus().ordinal() >= AccountStatus.ACTIVATED.ordinal();
     }
 }

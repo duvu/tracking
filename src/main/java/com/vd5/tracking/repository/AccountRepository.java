@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @version 1.0
  */
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
+public interface AccountRepository extends BaseRepository<Account> {
     Account findAccountByAccountId(String accountId);
 }

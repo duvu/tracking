@@ -37,13 +37,12 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    @PostFilter("hasPermission(filterObject, 'read') or hasPermission(filterObject, 'admin')")
-    public Page<Account> searchAndSort(Specification specification, Pageable pageable) {
+    public Page<Account> getAll(Specification<Account> specification, Pageable pageable) {
         return accountRepository.findAll(specification, pageable);
     }
 
     @Override
-    public List<Account> searchAndSort(Specification specification) {
+    public List<Account> getAll(Specification<Account> specification) {
         return accountRepository.findAll(specification);
     }
 
@@ -72,15 +71,18 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     @Transactional
-    public Account update(Long id, AccountRequest request) {
+    public void update(Long id, AccountRequest request) {
         Account account = accountRepository.findOne(id);
         if (account == null) {
             throw new NoSuchElementException("Account not found for Id#" + id);
         }
-        return accountRepository.save(account);
+        account.setAccountId(request.getAccountId());
+
+        accountRepository.save(account);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         accountRepository.delete(id);
     }

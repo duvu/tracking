@@ -25,14 +25,22 @@ public class Privilege implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 128)
     private String name;
 
+    @Column(length = 255)
     private String description;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
+
+    @Column(length = 32)
     private String createdBy;
+
+    @Column(length = 32)
     private String updatedBy;
 
     @PrePersist

@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author beou on 8/1/17 03:32
  * @version 1.0
  */
-public interface DeviceRepository extends CrudRepository<Device, Long> {
+public interface DeviceRepository extends BaseRepository<Device> {
 }

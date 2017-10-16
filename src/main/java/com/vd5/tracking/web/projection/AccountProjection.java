@@ -7,5 +7,4 @@ package com.vd5.tracking.web.projection;
 public interface AccountProjection {
     public Long getId();
     public String getAccountId();
-    public String getDisplayName();
 }

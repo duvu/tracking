@@ -23,16 +23,31 @@ public class Organization implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 128)
     private String name;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 128)
     private String emailAddress;
+
+    @Column(length = 255)
     private String photoUrl;
+
+    @Column(length = 20)
     private String phoneNumber;
+
+    @Column(length = 128)
     private String addressLine1;
+
+    @Column(length = 128)
     private String addressLine2;
+
+    @Column(length = 32)
     private String createdBy;
+
+    @Column(length = 32)
     private String updatedBy;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
     @Temporal(TemporalType.TIMESTAMP)

@@ -19,13 +19,8 @@ public class AccountSpecification extends AbstractSpecification<Account> {
 
     @Override
     public Specification<Account> search(String search) {
-        return new Specification<Account>() {
-            @Override
-            public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.or(cb.like(root.get(Account_.accountId), search),
-                        cb.like(root.get(Account_.firstName), search));
-            }
-        };
+        return (root, query, cb) -> cb.or(cb.like(root.get(Account_.accountId), search),
+                cb.like(root.get(Account_.firstName), search));
     }
 
 }

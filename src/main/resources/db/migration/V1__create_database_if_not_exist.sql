@@ -27,11 +27,6 @@ create index FKqc9uuldfqmt5qhf6f99f3b169
 	on Account (organization_id)
 ;
 
--- default password is '123456'
-INSERT INTO Account (accountId, password) VALUES
-('sysadmin', '$2a$10$.aqE4x/isX22RERANs01Z.ksLh00ssQM99rci8H3mH/VvTCSlVV.W');
-
-
 
 create table AccountPrivilege
 (
