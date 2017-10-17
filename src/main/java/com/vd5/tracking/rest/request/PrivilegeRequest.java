@@ -1,4 +1,4 @@
-package com.vd5.tracking.web.request;
+package com.vd5.tracking.rest.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

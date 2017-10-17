@@ -1,9 +1,9 @@
-package com.vd5.tracking.web;
+package com.vd5.tracking.rest;
 
 import com.vd5.tracking.exception.ValidationException;
 import com.vd5.tracking.service.PrivilegeService;
-import com.vd5.tracking.web.projection.PrivilegeProjection;
-import com.vd5.tracking.web.request.PrivilegeRequest;
+import com.vd5.tracking.rest.projection.PrivilegeProjection;
+import com.vd5.tracking.rest.request.PrivilegeRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.projection.ProjectionFactory;

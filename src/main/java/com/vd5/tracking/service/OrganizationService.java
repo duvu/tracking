@@ -1,13 +1,7 @@
 package com.vd5.tracking.service;
 
 import com.vd5.tracking.entity.Organization;
-import com.vd5.tracking.web.request.OrganizationRequest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
-
-import java.util.List;
+import com.vd5.tracking.rest.request.OrganizationRequest;
 
 /**
  * @author beou on 10/16/17 19:55

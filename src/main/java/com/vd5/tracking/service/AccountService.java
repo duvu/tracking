@@ -1,7 +1,7 @@
 package com.vd5.tracking.service;
 
 import com.vd5.tracking.entity.Account;
-import com.vd5.tracking.web.request.AccountRequest;
+import com.vd5.tracking.rest.request.AccountRequest;
 
 /**
  * @author beou on 8/1/17 03:33

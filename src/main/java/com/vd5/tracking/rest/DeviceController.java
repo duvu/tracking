@@ -1,7 +1,7 @@
-package com.vd5.tracking.web;
+package com.vd5.tracking.rest;
 
-import com.vd5.tracking.web.projection.DeviceProjection;
-import com.vd5.tracking.web.request.DeviceRequest;
+import com.vd5.tracking.rest.projection.DeviceProjection;
+import com.vd5.tracking.rest.request.DeviceRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;

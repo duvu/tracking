@@ -1,4 +1,4 @@
-package com.vd5.tracking.web;
+package com.vd5.tracking.rest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

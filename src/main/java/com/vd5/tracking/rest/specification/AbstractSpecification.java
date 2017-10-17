@@ -1,7 +1,6 @@
-package com.vd5.tracking.web.specification;
+package com.vd5.tracking.rest.specification;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;

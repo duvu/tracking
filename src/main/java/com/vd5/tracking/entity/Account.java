@@ -31,7 +31,11 @@ public class Account implements Serializable {
     @Column(nullable = false, unique = true, length = 32)
     private String accountId;
     private String password;
+
+    @Column(length = 25)
     private String firstName;
+
+    @Column(length = 25)
     private String lastName;
 
     @Enumerated

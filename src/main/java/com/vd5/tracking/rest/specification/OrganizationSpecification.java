@@ -1,4 +1,4 @@
-package com.vd5.tracking.web.specification;
+package com.vd5.tracking.rest.specification;
 
 import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.entity.Organization_;

@@ -1,4 +1,4 @@
-package com.vd5.tracking.web.projection;
+package com.vd5.tracking.rest.projection;
 
 /**
  * @author beou on 9/21/17 04:43

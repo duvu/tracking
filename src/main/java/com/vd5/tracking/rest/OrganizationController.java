@@ -1,11 +1,10 @@
-package com.vd5.tracking.web;
+package com.vd5.tracking.rest;
 
-import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.exception.ValidationException;
 import com.vd5.tracking.service.OrganizationService;
-import com.vd5.tracking.web.projection.OrganizationProjection;
-import com.vd5.tracking.web.request.OrganizationRequest;
-import com.vd5.tracking.web.specification.OrganizationSpecification;
+import com.vd5.tracking.rest.projection.OrganizationProjection;
+import com.vd5.tracking.rest.request.OrganizationRequest;
+import com.vd5.tracking.rest.specification.OrganizationSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

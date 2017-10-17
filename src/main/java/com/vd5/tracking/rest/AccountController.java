@@ -1,10 +1,10 @@
-package com.vd5.tracking.web;
+package com.vd5.tracking.rest;
 
 import com.vd5.tracking.exception.ValidationException;
 import com.vd5.tracking.service.AccountService;
-import com.vd5.tracking.web.projection.AccountProjection;
-import com.vd5.tracking.web.request.AccountRequest;
-import com.vd5.tracking.web.specification.AccountSpecification;
+import com.vd5.tracking.rest.projection.AccountProjection;
+import com.vd5.tracking.rest.request.AccountRequest;
+import com.vd5.tracking.rest.specification.AccountSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

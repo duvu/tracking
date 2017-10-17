@@ -1,14 +1,9 @@
-package com.vd5.tracking.web.specification;
+package com.vd5.tracking.rest.specification;
 
 import com.vd5.tracking.entity.Account;
 import com.vd5.tracking.entity.Account_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 /**
  * @author beou on 10/7/17 01:02

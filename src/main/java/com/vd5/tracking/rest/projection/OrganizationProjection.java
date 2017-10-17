@@ -1,4 +1,4 @@
-package com.vd5.tracking.web.projection;
+package com.vd5.tracking.rest.projection;
 
 import java.util.Date;
 

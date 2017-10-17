@@ -4,7 +4,7 @@ import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.repository.OrganizationRepository;
 import com.vd5.tracking.service.OrganizationService;
 import com.vd5.tracking.utils.Util;
-import com.vd5.tracking.web.request.OrganizationRequest;
+import com.vd5.tracking.rest.request.OrganizationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
