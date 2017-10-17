@@ -3,8 +3,8 @@ package com.vd5.tracking.service.impl;
 import com.vd5.tracking.entity.Privilege;
 import com.vd5.tracking.repository.PrivilegeRepository;
 import com.vd5.tracking.service.PrivilegeService;
-import com.vd5.tracking.utils.Util;
 import com.vd5.tracking.rest.request.PrivilegeRequest;
+import com.vd5.tracking.utils.AuthenticationFacade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,9 +19,11 @@ import java.util.NoSuchElementException;
 @Service
 public class PrivilegeServiceImpl implements PrivilegeService {
     private final PrivilegeRepository privilegeRepository;
+    private final AuthenticationFacade authenticationFacade;
 
-    public PrivilegeServiceImpl(PrivilegeRepository privilegeRepository) {
+    public PrivilegeServiceImpl(PrivilegeRepository privilegeRepository, AuthenticationFacade authenticationFacade) {
         this.privilegeRepository = privilegeRepository;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         Privilege privilege = Privilege.builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .createdBy(Util.getCurrentUsername())
+                .createdBy(authenticationFacade.getCurrentUserName())
                 .build();
         return privilegeRepository.save(privilege);
     }
@@ -55,7 +57,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         if (privilege != null) {
             privilege.setName(request.getName());
             privilege.setDescription(request.getDescription());
-            privilege.setUpdatedBy(Util.getCurrentUsername());
+            privilege.setUpdatedBy(authenticationFacade.getCurrentUserName());
             privilegeRepository.save(privilege);
         } else {
             throw new NoSuchElementException();

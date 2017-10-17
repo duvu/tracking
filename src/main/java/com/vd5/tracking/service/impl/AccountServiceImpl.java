@@ -4,6 +4,7 @@ import com.vd5.tracking.entity.Account;
 import com.vd5.tracking.repository.AccountRepository;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.rest.request.AccountRequest;
+import com.vd5.tracking.utils.AuthenticationFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,15 +24,18 @@ import java.util.NoSuchElementException;
  */
 @Slf4j
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final AuthenticationFacade authenticationFacade;
+
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder, AuthenticationFacade authenticationFacade) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override

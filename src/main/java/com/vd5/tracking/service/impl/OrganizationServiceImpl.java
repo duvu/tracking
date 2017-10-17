@@ -3,7 +3,7 @@ package com.vd5.tracking.service.impl;
 import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.repository.OrganizationRepository;
 import com.vd5.tracking.service.OrganizationService;
-import com.vd5.tracking.utils.Util;
+import com.vd5.tracking.utils.AuthenticationFacade;
 import com.vd5.tracking.rest.request.OrganizationRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +20,11 @@ import java.util.NoSuchElementException;
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
+    private final AuthenticationFacade authenticationFacade;
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, AuthenticationFacade authenticationFacade) {
         this.organizationRepository = organizationRepository;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .phoneNumber(request.getPhoneNumber())
                 .addressLine1(request.getAddressLine1())
                 .addressLine2(request.getAddressLine2())
-                .createdBy(Util.getCurrentUsername())
+                .createdBy(authenticationFacade.getCurrentUserName())
                 .build();
         return organizationRepository.save(organization);
     }
@@ -64,7 +66,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.setAddressLine1(request.getAddressLine1());
             organization.setPhoneNumber(request.getPhoneNumber());
             organization.setAddressLine2(request.getAddressLine2());
-            organization.setUpdatedBy(Util.getCurrentUsername());
+            organization.setUpdatedBy(authenticationFacade.getCurrentUserName());
             organizationRepository.save(organization);
         } else {
             throw new NoSuchElementException();
