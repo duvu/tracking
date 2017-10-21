@@ -3,7 +3,7 @@ package com.vd5.tracking.service.impl;
 import com.vd5.tracking.entity.Privilege;
 import com.vd5.tracking.repository.PrivilegeRepository;
 import com.vd5.tracking.service.PrivilegeService;
-import com.vd5.tracking.rest.request.PrivilegeRequest;
+import com.vd5.tracking.web.request.PrivilegeRequest;
 import com.vd5.tracking.utils.AuthenticationFacade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

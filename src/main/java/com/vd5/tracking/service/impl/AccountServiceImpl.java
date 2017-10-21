@@ -1,15 +1,20 @@
 package com.vd5.tracking.service.impl;
 
 import com.vd5.tracking.entity.Account;
+import com.vd5.tracking.entity.Privilege;
+import com.vd5.tracking.model.AccountStatus;
 import com.vd5.tracking.repository.AccountRepository;
+import com.vd5.tracking.repository.OrganizationRepository;
+import com.vd5.tracking.repository.PrivilegeRepository;
 import com.vd5.tracking.service.AccountService;
-import com.vd5.tracking.rest.request.AccountRequest;
+import com.vd5.tracking.web.request.AccountRequest;
 import com.vd5.tracking.utils.AuthenticationFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +22,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author beou on 8/1/17 04:55
@@ -26,15 +33,20 @@ import java.util.NoSuchElementException;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    private final OrganizationRepository organizationRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PrivilegeRepository privilegeRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder, AuthenticationFacade authenticationFacade) {
+    public AccountServiceImpl(OrganizationRepository organizationRepository, AccountRepository accountRepository,
+                              PasswordEncoder passwordEncoder, PrivilegeRepository privilegeRepository, AuthenticationFacade authenticationFacade) {
+        this.organizationRepository = organizationRepository;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.privilegeRepository = privilegeRepository;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -60,8 +72,23 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public Account create(AccountRequest request) {
+        Set<Long> privilegeIds = request.getPrivilegeIds();
+        Set<Privilege> privilegeSet = privilegeIds.stream().map(privilegeRepository::findOne).collect(Collectors.toSet());
+
         Account account = Account.builder()
                 .accountId(request.getAccountId())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .status(AccountStatus.ACTIVATED)
+                .organization(organizationRepository.findOne(authenticationFacade.getOrganizationId()))
+                .privileges(privilegeSet)
+                .phoneNumber(request.getPhoneNumber())
+                .photoUrl(request.getPhotoUrl())
+                .addressLine1(request.getAddressLine1())
+                .addressLine2(request.getAddressLine2())
+                .emailAddress(request.getEmailAddress())
+                .createdBy(authenticationFacade.getCurrentUserName())
                 .build();
 
         if (!StringUtils.isEmpty(request.getPassword())) {
@@ -79,6 +106,14 @@ public class AccountServiceImpl implements AccountService {
             throw new NoSuchElementException("Account not found for Id#" + id);
         }
         account.setAccountId(request.getAccountId());
+        account.setFirstName(request.getFirstName());
+        account.setLastName(request.getLastName());
+        account.setPhoneNumber(request.getPhoneNumber());
+        account.setPhotoUrl(request.getPhotoUrl());
+        account.setAddressLine1(request.getAddressLine1());
+        account.setAddressLine2(request.getAddressLine2());
+        account.setEmailAddress(request.getEmailAddress());
+        account.setUpdatedBy(authenticationFacade.getCurrentUserName());
 
         accountRepository.save(account);
     }
@@ -87,16 +122,5 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void delete(Long id) {
         accountRepository.delete(id);
-    }
-
-
-    @Override
-    public void addChild(Long parentId, Account childAccount) {
-
-    }
-
-    @Override
-    public void removeChild(Long parenId, Long childId) {
-
     }
 }

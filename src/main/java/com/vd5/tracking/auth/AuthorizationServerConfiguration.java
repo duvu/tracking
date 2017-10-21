@@ -20,8 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,11 +33,11 @@ import java.util.stream.Collectors;
 
 /**
  * @author beou on 9/20/17 22:27
- * @version 1.0
  */
+
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
-@Slf4j
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -75,13 +74,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .scopes("read", "write")
                 .accessTokenValiditySeconds(3600*8)
                 .refreshTokenValiditySeconds(3600*8);
-
-//            clients.inMemory()
-//                .withClient("test")
-//                .authorizedGrantTypes("authorization_code")
-//                .authorities("ROLE_CLIENT")
-//                .scopes("read", "trust")
-//                .resourceIds("oauth2-resource");
     }
 
     @Override
@@ -93,11 +85,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
 
         endpoints
                 .authenticationManager(this.authenticationManager)
-                .accessTokenConverter(accessTokenConverter())
+                .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(enhancerChain)
                 .userDetailsService(userDetailsService)
                 .exceptionTranslator(loggingExceptionTranslator());
@@ -107,10 +99,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            MyUserDetailsImpl userDetails = (MyUserDetailsImpl)userDetailsService.loadUserByUsername(authentication.getName());
-
-            log.info("user: " + userDetails.getUsername());
-
+            MyPrincipal userDetails = (MyPrincipal)userDetailsService.loadUserByUsername(authentication.getName());
             Map<String, Object> additionalInfor = new HashMap<>();
             additionalInfor.put("account_id", userDetails.getUsername());
             additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
@@ -120,8 +109,23 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    UserAuthenticationConverter userAuthenticationConverter() {
+        DefaultUserAuthenticationConverter converter = new DefaultUserAuthenticationConverter();
+        converter.setUserDetailsService(userDetailsService);
+        return converter;
+    }
+
+    @Bean
+    AccessTokenConverter accessTokenConverter() {
+        DefaultAccessTokenConverter converter = new DefaultAccessTokenConverter();
+        converter.setUserTokenConverter(userAuthenticationConverter());
+        return converter;
+    }
+
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setAccessTokenConverter(accessTokenConverter());
         converter.setSigningKey("123");
         return converter;
     }

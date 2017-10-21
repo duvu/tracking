@@ -1,7 +1,7 @@
 package com.vd5.tracking.service;
 
 import com.vd5.tracking.entity.Privilege;
-import com.vd5.tracking.rest.request.PrivilegeRequest;
+import com.vd5.tracking.web.request.PrivilegeRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

@@ -1,4 +1,4 @@
-package com.vd5.tracking.rest.specification;
+package com.vd5.tracking.web.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -47,5 +47,7 @@ public abstract class AbstractSpecification<T> {
         return "%" + pattern + "%";
     }
 
-    public abstract Specification<T> search(String search);
+    public abstract Specification<T> searchAll(String search);
+    public abstract Specification<T> searchOrg(String search);
+    public abstract Specification<T> searchOne(String search);
 }

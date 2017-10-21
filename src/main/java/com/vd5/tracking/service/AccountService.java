@@ -1,7 +1,7 @@
 package com.vd5.tracking.service;
 
 import com.vd5.tracking.entity.Account;
-import com.vd5.tracking.rest.request.AccountRequest;
+import com.vd5.tracking.web.request.AccountRequest;
 
 /**
  * @author beou on 8/1/17 03:33
@@ -9,7 +9,4 @@ import com.vd5.tracking.rest.request.AccountRequest;
  */
 
 public interface AccountService extends BaseService<Account, AccountRequest> {
-    void addChild(Long parentId, Account childAccount);
-    void removeChild(Long parenId, Long childId);
-
 }

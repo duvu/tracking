@@ -1,13 +1,9 @@
-package com.vd5.tracking.rest.projection;
+package com.vd5.tracking.web.projection;
 
-import com.vd5.tracking.entity.Organization;
-import com.vd5.tracking.entity.Privilege;
 import com.vd5.tracking.model.AccountStatus;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @author beou on 9/21/17 03:51
@@ -23,7 +19,7 @@ public interface AccountProjection {
     @Value(value = "#{target.getOrganization() != null ? target.getOrganization().getId() : null}")
     Long getOrganizationId();
     @Value(value = "#{target.getOrganization() != null ? target.getOrganization().getName() : null}")
-    Long getOrganizationName();
+    String getOrganizationName();
     String getPhoneNumber();
     String getPhotoUrl();
     String getEmailAddress();

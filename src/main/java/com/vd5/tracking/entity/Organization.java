@@ -30,7 +30,7 @@ public class Organization implements Serializable {
     @Column(nullable = false, unique = true, length = 128)
     private String emailAddress;
 
-    @Column(length = 255)
+    @Column(length = 254)
     private String photoUrl;
 
     @Column(length = 20)

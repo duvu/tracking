@@ -33,6 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (account == null) {
             throw new UsernameNotFoundException("Username not found");
         }
-        return new MyUserDetailsImpl(account);
+        return new MyPrincipal(account);
     }
 }

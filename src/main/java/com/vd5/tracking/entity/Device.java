@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device implements Serializable {
+public class Device implements Serializable, TanencyInf {
 
     private static final long serialVersionUID = -8426530978816745841L;
 
@@ -51,5 +51,10 @@ public class Device implements Serializable {
     @PreUpdate
     private void preUpdate () {
         this.updatedOn = new Date();
+    }
+
+    @Override
+    public Long getAccountId() {
+        return this.account.getId();
     }
 }

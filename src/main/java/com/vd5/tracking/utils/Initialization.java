@@ -48,13 +48,25 @@ public class Initialization {
     }
 
     private void initPrivileges() {
-        Privilege privilege = privilegeRepository.findByName("ROLE_SYSTEM_ADMIN");
-        if (privilege == null) {
-            privilege = Privilege.builder()
-                    .name("ROLE_SYSTEM_ADMIN").description("Zeno Group!")
-                    .createdBy("admin@vd5.com")
-                    .build();
-            privilegeRepository.save(privilege);
+        Privilege privilege0 = privilegeRepository.findByName(RolesList.ROLE_SYSTEM_ADMIN);
+        Privilege privilege1 = privilegeRepository.findByName(RolesList.ROLE_ADMINISTRATOR);
+        Privilege privilege2 = privilegeRepository.findByName(RolesList.ROLE_MODERATOR);
+        Privilege privilege3 = privilegeRepository.findByName(RolesList.ROLE_USER);
+        if (privilege0 == null) {
+            privilege0 = Privilege.builder().name(RolesList.ROLE_SYSTEM_ADMIN).description("System Admin Group!").createdBy("admin@vd5.com").build();
+            privilegeRepository.save(privilege0);
+        }
+        if (privilege1 == null) {
+            privilege1 = Privilege.builder().name(RolesList.ROLE_ADMINISTRATOR).description("Company Admin Group!").createdBy("admin@vd5.com").build();
+            privilegeRepository.save(privilege1);
+        }
+        if (privilege2 == null) {
+            privilege2 = Privilege.builder().name(RolesList.ROLE_MODERATOR).description("Company Mod Group!").createdBy("admin@vd5.com").build();
+            privilegeRepository.save(privilege2);
+        }
+        if (privilege3 == null) {
+            privilege3 = Privilege.builder().name(RolesList.ROLE_USER).description("User Groups!").createdBy("admin@vd5.com").build();
+            privilegeRepository.save(privilege3);
         }
     }
 

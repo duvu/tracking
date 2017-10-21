@@ -8,4 +8,11 @@ import org.springframework.security.core.Authentication;
 public interface AuthenticationFacade {
     Authentication getAuthentication();
     String getCurrentUserName();
+    Boolean isSysAdmin();
+    Boolean isAdmin();
+    Boolean isModerator();
+    Boolean isUser();
+
+    Long getAccountId();
+    Long getOrganizationId();
 }

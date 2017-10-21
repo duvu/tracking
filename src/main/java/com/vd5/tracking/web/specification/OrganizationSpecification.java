@@ -1,4 +1,4 @@
-package com.vd5.tracking.rest.specification;
+package com.vd5.tracking.web.specification;
 
 import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.entity.Organization_;
@@ -14,7 +14,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationSpecification extends AbstractSpecification<Organization> {
     @Override
-    public Specification<Organization> search(String search) {
-        return (root, query, cb) -> cb.like(cb.lower(root.get(Organization_.name)), getSearchTerm(search));
+    public Specification<Organization> searchAll(String search) {
+        return null;
     }
+
+    @Override
+    public Specification<Organization> searchOrg(String search) {
+        return null;
+    }
+
+    @Override
+    public Specification<Organization> searchOne(String search) {
+        return null;
+    }
+
 }
