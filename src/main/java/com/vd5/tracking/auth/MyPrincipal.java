@@ -24,13 +24,15 @@ public class MyPrincipal implements UserDetails {
     private static final long serialVersionUID = 1015478378277111822L;
     private Account account;
     private Long organizationId;
+    private String organizationName;
     private Long accountId;
 
     public MyPrincipal(Account account) {
         this.account = account;
         Organization organization = account.getOrganization();
-        this.organizationId = organization != null ? organization.getId() : null;
         this.accountId = account.getId();
+        this.organizationId = organization != null ? organization.getId() : null;
+        this.organizationName = organization != null ? organization.getName() : null;
     }
 
     @Override
@@ -76,6 +78,14 @@ public class MyPrincipal implements UserDetails {
 
     public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
     public Long getAccountId() {

@@ -101,7 +101,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return (accessToken, authentication) -> {
             MyPrincipal userDetails = (MyPrincipal)userDetailsService.loadUserByUsername(authentication.getName());
             Map<String, Object> additionalInfor = new HashMap<>();
-            additionalInfor.put("account_id", userDetails.getUsername());
+            additionalInfor.put("accountId", userDetails.getAccountId());
+            additionalInfor.put("accountName", userDetails.getUsername());
+            additionalInfor.put("organizationId", userDetails.getOrganizationId());
+            additionalInfor.put("organizationName", userDetails.getOrganizationName());
             additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInfor);
             return accessToken;

@@ -46,6 +46,7 @@ public class AccountRequest implements Serializable {
     @Size(max = 255)
     private String photoUrl;
 
+    @NotNull
     @Size(max = 128)
     private String emailAddress;
 

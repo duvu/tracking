@@ -73,7 +73,10 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public Account create(AccountRequest request) {
         Set<Long> privilegeIds = request.getPrivilegeIds();
-        Set<Privilege> privilegeSet = privilegeIds.stream().map(privilegeRepository::findOne).collect(Collectors.toSet());
+        Set<Privilege> privilegeSet = null;
+        if (privilegeIds != null) {
+            privilegeSet = privilegeIds.stream().map(privilegeRepository::findOne).collect(Collectors.toSet());
+        }
 
         Account account = Account.builder()
                 .accountId(request.getAccountId())
