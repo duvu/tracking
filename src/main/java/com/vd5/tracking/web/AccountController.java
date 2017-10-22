@@ -91,7 +91,7 @@ public class AccountController implements BaseController<AccountRequest, Account
         accountService.update(id, request);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SYSTEM_ADMIN', 'ADMINISTRATOR', 'MODERATOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
