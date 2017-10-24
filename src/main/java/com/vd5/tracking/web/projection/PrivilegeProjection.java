@@ -11,6 +11,6 @@ public interface PrivilegeProjection {
     public String getDescription();
     public Date getCreatedOn();
     public Date getUpdatedOn();
-    public String createdBy();
-    public String updatedBy();
+    public String getCreatedBy();
+    public String getUpdatedBy();
 }

@@ -14,14 +14,36 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeviceRequest implements Serializable {
 
     private static final long serialVersionUID = 7294250623424629286L;
 
+    @Size(max = 32)
+    private String name;
+
+    private Long accountId;
+
     @NotNull
     @Size(max = 32)
-    private String deviceId;        //must be unique
+    private String deviceId;
+
+    @Size(max = 32)
+    private String vehicleId;
+
+    @Size(max = 32)
+    private String protocol;
+
+    @Size(max = 32)
+    private String serivalNumber;
+
+    @Size(max = 32)
+    private String modelName;
+
+    private String manufacturerName;
+
+    private String firmwareVerison;
+
+    private String originalCountry;
 }

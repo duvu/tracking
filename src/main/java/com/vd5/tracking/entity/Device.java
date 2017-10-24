@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device implements Serializable, TanencyInf {
+public class Device implements Serializable {
 
     private static final long serialVersionUID = -8426530978816745841L;
 
@@ -25,12 +25,41 @@ public class Device implements Serializable, TanencyInf {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 32)
+    private String name;
+
+    @Column(nullable = false, unique = true, length = 32)
+    private String deviceId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "accountId", referencedColumnName = "id")
     private Account account;
 
-    @Column(nullable = false, unique = true, length = 32)
-    private String deviceId;
+    @OneToOne
+    @JoinColumn(name = "vehicleId", referencedColumnName = "id")
+    private Vehicle vehicle;
+
+    private String ipAddress;
+
+    private Integer port;
+
+    @Column(length = 32)
+    private String protocol;
+
+    @Column(length = 32)
+    private String serialNumber;
+
+    @Column(length = 32)
+    private String modelName;
+
+    @Column(length = 128)
+    private String manufacturerName;
+
+    @Column(length = 32)
+    private String firmwareVerison;
+
+    @Column(length = 128)
+    private String originalCountry;
 
     @Column(length = 32)
     private String createdBy;
@@ -40,6 +69,7 @@ public class Device implements Serializable, TanencyInf {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
 
@@ -51,10 +81,5 @@ public class Device implements Serializable, TanencyInf {
     @PreUpdate
     private void preUpdate () {
         this.updatedOn = new Date();
-    }
-
-    @Override
-    public Long getAccountId() {
-        return this.account.getId();
     }
 }

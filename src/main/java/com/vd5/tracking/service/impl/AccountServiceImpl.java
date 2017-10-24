@@ -9,12 +9,12 @@ import com.vd5.tracking.repository.PrivilegeRepository;
 import com.vd5.tracking.service.AccountService;
 import com.vd5.tracking.web.request.AccountRequest;
 import com.vd5.tracking.utils.AuthenticationFacade;
+import com.vd5.tracking.web.specification.AccountSpecificationHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,26 +37,31 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final PrivilegeRepository privilegeRepository;
+    private final AccountSpecificationHelper specificationHelper;
 
     private final AuthenticationFacade authenticationFacade;
 
     @Autowired
     public AccountServiceImpl(OrganizationRepository organizationRepository, AccountRepository accountRepository,
-                              PasswordEncoder passwordEncoder, PrivilegeRepository privilegeRepository, AuthenticationFacade authenticationFacade) {
+                              PasswordEncoder passwordEncoder, PrivilegeRepository privilegeRepository,
+                              AccountSpecificationHelper specificationHelper, AuthenticationFacade authenticationFacade) {
         this.organizationRepository = organizationRepository;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.privilegeRepository = privilegeRepository;
+        this.specificationHelper = specificationHelper;
         this.authenticationFacade = authenticationFacade;
     }
 
     @Override
-    public Page<Account> getAll(Specification<Account> specification, Pageable pageable) {
+    public Page<Account> getAll(String search, Pageable pageable) {
+        Specification<Account> specification = specificationHelper.search(search);
         return accountRepository.findAll(specification, pageable);
     }
 
     @Override
-    public List<Account> getAll(Specification<Account> specification) {
+    public List<Account> getAll(String search) {
+        Specification<Account> specification = specificationHelper.search(search);
         return accountRepository.findAll(specification);
     }
 

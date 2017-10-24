@@ -1,5 +1,6 @@
 package com.vd5.tracking.web;
 
+import com.vd5.tracking.service.DeviceService;
 import com.vd5.tracking.web.projection.DeviceProjection;
 import com.vd5.tracking.web.request.DeviceRequest;
 import org.springframework.data.domain.Page;
@@ -10,9 +11,15 @@ import java.util.List;
 
 /**
  * @author beou on 8/1/17 03:10
- * @version 1.0
  */
 public class DeviceController implements BaseController<DeviceRequest, DeviceProjection> {
+
+    private final DeviceService deviceService;
+
+    public DeviceController(DeviceService deviceService) {
+        this.deviceService = deviceService;
+    }
+
     @Override
     public Page<DeviceProjection> getAll(String search, Pageable pageable) {
         return null;

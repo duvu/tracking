@@ -50,6 +50,7 @@ public class Organization implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
 

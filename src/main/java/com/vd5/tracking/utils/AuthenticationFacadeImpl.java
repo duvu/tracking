@@ -1,11 +1,13 @@
 package com.vd5.tracking.utils;
 
 import com.vd5.tracking.auth.MyPrincipal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +15,9 @@ import java.util.stream.Collectors;
 /**
  * @author beou on 10/17/17 22:21
  */
-@Component
+
+@Slf4j
+@Service
 public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
     @Override
@@ -24,6 +28,9 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
     @Override
     public String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("Authentication Name", authentication.getName());
+
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return authentication.getName();
         }

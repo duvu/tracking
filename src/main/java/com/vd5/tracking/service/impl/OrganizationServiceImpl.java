@@ -5,6 +5,7 @@ import com.vd5.tracking.repository.OrganizationRepository;
 import com.vd5.tracking.service.OrganizationService;
 import com.vd5.tracking.utils.AuthenticationFacade;
 import com.vd5.tracking.web.request.OrganizationRequest;
+import com.vd5.tracking.web.specification.OrganizationSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,19 +22,25 @@ import java.util.NoSuchElementException;
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final AuthenticationFacade authenticationFacade;
+    private final OrganizationSpecification organizationSpecification;
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, AuthenticationFacade authenticationFacade) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository,
+                                   AuthenticationFacade authenticationFacade,
+                                   OrganizationSpecification organizationSpecification) {
         this.organizationRepository = organizationRepository;
         this.authenticationFacade = authenticationFacade;
+        this.organizationSpecification = organizationSpecification;
     }
 
     @Override
-    public Page<Organization> getAll(Specification<Organization> specification, Pageable pageable) {
+    public Page<Organization> getAll(String search, Pageable pageable) {
+        Specification<Organization> specification = organizationSpecification.search(search);
         return organizationRepository.findAll(specification, pageable);
     }
 
     @Override
-    public List<Organization> getAll(Specification<Organization> specification) {
+    public List<Organization> getAll(String search) {
+        Specification<Organization> specification = organizationSpecification.search(search);
         return organizationRepository.findAll(specification);
     }
 

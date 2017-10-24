@@ -12,12 +12,5 @@ import java.util.List;
 /**
  * @author beou on 10/16/17 18:36
  */
-public interface PrivilegeService {
-    Page<Privilege> getAll(Specification<Privilege> specification, Pageable pageable);
-    List<Privilege> getAll(Specification<Privilege> specification);
-    Privilege getById(Long id);
-
-    Privilege create(PrivilegeRequest request);
-    void update(Long id, PrivilegeRequest request);
-    void _delete(Long id);
+public interface PrivilegeService extends BaseService<Privilege, PrivilegeRequest>{
 }

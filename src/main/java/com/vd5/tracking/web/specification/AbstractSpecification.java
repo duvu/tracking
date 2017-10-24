@@ -47,7 +47,5 @@ public abstract class AbstractSpecification<T> {
         return "%" + pattern + "%";
     }
 
-    public abstract Specification<T> searchAll(String search);
-    public abstract Specification<T> searchOrg(String search);
-    public abstract Specification<T> searchOne(String search);
+    public abstract Specification<T> search(String search);
 }

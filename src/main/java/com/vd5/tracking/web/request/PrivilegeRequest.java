@@ -14,6 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PrivilegeRequest implements Serializable{
+
     private static final long serialVersionUID = 5357559035369504422L;
     @NotNull
     private String name;

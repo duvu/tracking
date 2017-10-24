@@ -7,6 +7,7 @@ import com.vd5.tracking.utils.AuthenticationFacade;
 import com.vd5.tracking.web.projection.AccountProjection;
 import com.vd5.tracking.web.request.AccountRequest;
 import com.vd5.tracking.web.specification.AccountSpecificationHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,15 +26,16 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/account")
 public class AccountController implements BaseController<AccountRequest, AccountProjection> {
 
-    private final AccountService accountService;
-    private final AccountSpecificationHelper accountSpecification;
+    private AccountService accountService;
+    private AccountSpecificationHelper accountSpecification;
 
-    private final ProjectionFactory projectionFactory;
-    private final AuthenticationFacade authenticationFacade;
+    private ProjectionFactory projectionFactory;
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
     public AccountController(AccountService accountService, AccountSpecificationHelper accountSpecification,
@@ -47,24 +49,13 @@ public class AccountController implements BaseController<AccountRequest, Account
     @GetMapping
     @PreAuthorize("hasAnyRole('SYSTEM_ADMIN', 'ADMINISTRATOR', 'MODERATOR', 'USER')")
     public Page<AccountProjection> getAll(@RequestParam(name = "search", required = false) String search, Pageable pageable) {
-        Page<Account> accountPage = null;
-        if (authenticationFacade.isSysAdmin()) {
-            accountPage = accountService.getAll(accountSpecification.searchAll(search), pageable);
-        } else if (authenticationFacade.isAdmin()) {
-            accountPage = accountService.getAll(accountSpecification.searchOrg(search), pageable);
-        } else if (authenticationFacade.isModerator()) {
-            accountPage = accountService.getAll(accountSpecification.searchOrg(search), pageable);
-        } else if (authenticationFacade.isUser()) {
-            accountPage = accountService.getAll(accountSpecification.searchOne(search), pageable);
-        }
-
-        return accountPage != null ? accountPage.map(x -> projectionFactory.createProjection(AccountProjection.class, x)) : null;
+        return accountService.getAll(search, pageable).map(x -> projectionFactory.createProjection(AccountProjection.class, x));
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('SYSTEM_ADMIN', 'ADMINISTRATOR', 'MODERATOR', 'USER')")
     public List<AccountProjection> getAll(@RequestParam(name = "search", required = false) String search) {
-        return accountService.getAll(accountSpecification.searchAll(search)).stream().map(x -> projectionFactory.createProjection(AccountProjection.class, x)).collect(Collectors.toList());
+        return accountService.getAll(search).stream().map(x -> projectionFactory.createProjection(AccountProjection.class, x)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

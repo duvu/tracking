@@ -41,14 +41,13 @@ public class OrganizationController implements BaseController<OrganizationReques
     @Override
     @GetMapping
     public Page<OrganizationProjection> getAll(@RequestParam(required = false) String search, Pageable pageable) {
-        log.info("Search@ " + search);
-        return organizationService.getAll(organizationSpecification.searchAll(search), pageable).map(x -> projectionFactory.createProjection(OrganizationProjection.class, x));
+        return organizationService.getAll(search, pageable).map(x -> projectionFactory.createProjection(OrganizationProjection.class, x));
     }
 
     @Override
     @GetMapping("/all")
     public List<OrganizationProjection> getAll(@RequestParam(required = false) String search) {
-        return organizationService.getAll(organizationSpecification.searchAll(search)).stream().map(x -> projectionFactory.createProjection(OrganizationProjection.class, x)).collect(Collectors.toList());
+        return organizationService.getAll(search).stream().map(x -> projectionFactory.createProjection(OrganizationProjection.class, x)).collect(Collectors.toList());
     }
 
     @Override

@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -25,4 +22,19 @@ public class Vehicle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(length = 32)
+    private String name;
+
+    @OneToOne
+    @JoinColumn(name = "deviceId", referencedColumnName = "id")
+    private Device device;
+
+    private String address;
+    private Double latitude;
+    private Double longitude;
+    private Double altitude;
+    private Double velocity;
+    private Double direction;
+
 }

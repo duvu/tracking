@@ -14,18 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationSpecification extends AbstractSpecification<Organization> {
     @Override
-    public Specification<Organization> searchAll(String search) {
-        return null;
+    public Specification<Organization> search(String search) {
+        return (root, query, cb) -> cb.or(cb.like(root.get(Organization_.name), getSearchTerm(search)),
+                cb.like(root.get(Organization_.emailAddress), getSearchTerm(search)));
     }
-
-    @Override
-    public Specification<Organization> searchOrg(String search) {
-        return null;
-    }
-
-    @Override
-    public Specification<Organization> searchOne(String search) {
-        return null;
-    }
-
 }

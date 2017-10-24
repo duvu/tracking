@@ -10,12 +10,10 @@ import java.util.List;
  * @author beou on 10/16/17 23:31
  */
 public interface BaseService<T, R> {
-    Page<T> getAll(Specification<T> specification, Pageable pageable);
-    List<T> getAll(Specification<T> specification);
+    Page<T> getAll(String search, Pageable pageable);
+    List<T> getAll(String search);
     T getById(Long id);
-
     T create(R request);
     void update(Long id, R request);
     void delete(Long id);
-
 }

@@ -1,8 +1,6 @@
 package com.vd5.tracking.conf;
 
 import com.vd5.tracking.auth.MyPrincipal;
-import com.vd5.tracking.entity.Account;
-import com.vd5.tracking.entity.TanencyInf;
 import com.vd5.tracking.model.Permission;
 import com.vd5.tracking.utils.RolesList;
 import org.springframework.security.access.PermissionEvaluator;
@@ -59,13 +57,7 @@ public class MyPermissionEvaluator implements PermissionEvaluator {
     }
 
     private boolean adminAccessible(Long organizationId, Long accountId, Object targetDomainObject) {
-        if (targetDomainObject instanceof Account) {
-            return organizationId == ((Account)targetDomainObject).getOrganization().getId();
-        } else if (targetDomainObject instanceof TanencyInf) {
-            return accountId == ((TanencyInf) targetDomainObject).getAccountId();
-        } else {
-            return false;
-        }
+        return true;
     }
 
     private boolean hasPrivilege(Authentication auth, String targetType, String permission) {
