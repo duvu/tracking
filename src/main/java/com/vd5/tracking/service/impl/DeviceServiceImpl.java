@@ -7,6 +7,7 @@ import com.vd5.tracking.service.DeviceService;
 import com.vd5.tracking.utils.AuthenticationFacade;
 import com.vd5.tracking.web.request.DeviceRequest;
 import com.vd5.tracking.web.specification.DeviceSpecification;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,8 @@ import java.util.NoSuchElementException;
 /**
  * @author beou on 8/1/17 03:33
  */
+
+@Slf4j
 @Service
 public class DeviceServiceImpl implements DeviceService {
 
@@ -60,10 +63,16 @@ public class DeviceServiceImpl implements DeviceService {
     @Transactional
     public Device create(DeviceRequest request) {
         //todo update vehicle informations
+
+        log.info("create#deviceId: " + request.getDeviceId());
+        log.info("create#accountId: " + request.getAccountId());
+
+        Long usageId = request.getAccountId() != null ? request.getAccountId() : authenticationFacade.getAccountId();
+
         Device device = Device.builder()
                 .name(request.getName())
                 .deviceId(request.getDeviceId())
-                .account(accountRepository.findOne(request.getAccountId()))
+                .account(accountRepository.findOne(usageId))
                 .protocol(request.getProtocol())
                 .serialNumber(request.getSerivalNumber())
                 .modelName(request.getModelName())
