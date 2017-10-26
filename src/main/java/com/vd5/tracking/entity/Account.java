@@ -1,6 +1,5 @@
 package com.vd5.tracking.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vd5.tracking.model.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,6 +67,12 @@ public class Account implements Serializable {
 
     @Column(length = 512)
     private String notes;
+
+    @Column(length = 32)
+    private String language;
+
+    @Column(length = 32)
+    private String timzone;
 
     @Column(length = 32)
     private String createdBy;

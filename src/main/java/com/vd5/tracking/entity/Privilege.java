@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author beou on 8/1/17 14:38
@@ -30,6 +31,13 @@ public class Privilege implements Serializable{
 
     @Column(length = 255)
     private String description;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "PrivilegeMenu", joinColumns = @JoinColumn(name = "privilegeId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "menuId", referencedColumnName = "id"))
+    @OrderBy(value = "ordered asc")
+    private List<Menu> menuList;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;

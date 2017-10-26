@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,22 +42,26 @@ public class PrivilegeController implements BaseController<PrivilegeRequest, Pri
     }
 
     @GetMapping
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public Page<PrivilegeProjection> getAll(@RequestParam(name = "search", required = false) String search, Pageable pageable) {
         return privilegeService.getAll(search, pageable).map(x -> projectionFactory.createProjection(PrivilegeProjection.class, x));
     }
 
     @GetMapping("/all")
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public List<PrivilegeProjection> getAll(@RequestParam(name = "search", required = false) String search) {
         return privilegeService.getAll(search).stream().map(x -> projectionFactory.createProjection(PrivilegeProjection.class, x)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public PrivilegeProjection getById(@PathVariable Long id) {
         return projectionFactory.createProjection(PrivilegeProjection.class, privilegeService.getById(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public PrivilegeProjection create(@RequestBody @Valid PrivilegeRequest request, BindingResult result) {
         log.info("CurrentUser: #" + authenticationFacade.getCurrentUserName());
         if (result.hasErrors())
@@ -66,6 +71,7 @@ public class PrivilegeController implements BaseController<PrivilegeRequest, Pri
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public void update(@PathVariable Long id, @RequestBody @Valid PrivilegeRequest request, BindingResult result) {
         if (result.hasErrors())
             throw new ValidationException("Privilege", result.getFieldErrors());
@@ -74,6 +80,7 @@ public class PrivilegeController implements BaseController<PrivilegeRequest, Pri
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize(value = "hasRole('SYSTEM_ADMIN')")
     public void delete(@PathVariable Long id) {
         privilegeService.delete(id);
     }

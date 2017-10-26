@@ -1,6 +1,7 @@
 package com.vd5.tracking.auth;
 
 import com.vd5.tracking.entity.Account;
+import com.vd5.tracking.entity.Menu;
 import com.vd5.tracking.entity.Organization;
 import com.vd5.tracking.entity.Privilege;
 import com.vd5.tracking.model.AccountStatus;
@@ -9,10 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -22,10 +20,12 @@ import java.util.stream.Collectors;
 public class MyPrincipal implements UserDetails {
 
     private static final long serialVersionUID = 1015478378277111822L;
+
     private Account account;
     private Long organizationId;
     private String organizationName;
     private Long accountId;
+    private Set<Menu> menuSet;
 
     public MyPrincipal(Account account) {
         this.account = account;
@@ -33,6 +33,12 @@ public class MyPrincipal implements UserDetails {
         this.accountId = account.getId();
         this.organizationId = organization != null ? organization.getId() : null;
         this.organizationName = organization != null ? organization.getName() : null;
+
+        menuSet = new HashSet<>();
+
+        account.getPrivileges().forEach(x -> {
+            menuSet.addAll(x.getMenuList());
+        });
     }
 
     @Override
@@ -104,4 +110,11 @@ public class MyPrincipal implements UserDetails {
         this.account = account;
     }
 
+    public Set<Menu> getMenuSet() {
+        return menuSet;
+    }
+
+    public void setMenuSet(Set<Menu> menuSet) {
+        this.menuSet = menuSet;
+    }
 }

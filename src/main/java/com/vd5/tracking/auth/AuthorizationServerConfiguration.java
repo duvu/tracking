@@ -106,6 +106,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             additionalInfor.put("organizationId", userDetails.getOrganizationId());
             additionalInfor.put("organizationName", userDetails.getOrganizationName());
             additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+            additionalInfor.put("menuList", userDetails.getMenuSet());
+
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInfor);
             return accessToken;
         };
