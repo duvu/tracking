@@ -1,4 +1,4 @@
-package com.vd5.tracking.entity;
+package com.vd5.tracking.exception;
 
 /**
  * @author beou on 10/27/17 00:44

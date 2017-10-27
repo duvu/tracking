@@ -1,6 +1,6 @@
 package com.vd5.tracking.dcs;
 
-import com.vd5.tracking.entity.DCSRuntimeException;
+import com.vd5.tracking.exception.DCSRuntimeException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
